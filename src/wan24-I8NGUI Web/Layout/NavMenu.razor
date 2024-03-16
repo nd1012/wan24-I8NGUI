@@ -1,39 +1,34 @@
-﻿<div class="top-row ps-3 navbar navbar-dark">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="">wan24-I8NGUI Web</a>
-        <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-    </div>
-</div>
+﻿<FluentAppBarItem Href=""
+                  Match="NavLinkMatch.All"
+                  IconRest="HomeIcon()"
+                  IconActive="HomeIcon(active: true)"
+                  Text="@_("Home")" />
 
-<div class="@NavMenuCssClass nav-scrollable" @onclick="ToggleNavMenu">
-    <nav class="flex-column">
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                <span class="bi bi-house-door-fill-nav-menu" aria-hidden="true"></span> Home
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="counter">
-                <span class="bi bi-plus-square-fill-nav-menu" aria-hidden="true"></span> Counter
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="weather">
-                <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Weather
-            </NavLink>
-        </div>
-    </nav>
-</div>
+<FluentAppBarItem Href="counter"
+                  Match="NavLinkMatch.All"
+                  IconRest="CounterIcon()"
+                  IconActive="CounterIcon(active: true)"
+                  Text="@_("Counter")" />
+
+<FluentAppBarItem Href="weather"
+                  Match="NavLinkMatch.All"
+                  IconRest="WeatherIcon()"
+                  IconActive="WeatherIcon(active: true)"
+                  Text="@_("Weather")" />
 
 @code {
-    private bool collapseNavMenu = true;
+    private static Icon HomeIcon(bool active = false)
+            => active
+                ? new Icons.Filled.Size24.Home()
+                : new Icons.Regular.Size24.Home();
 
-    private string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+    private static Icon CounterIcon(bool active = false)
+            => active
+                ? new Icons.Filled.Size24.ArrowCounterclockwise()
+                : new Icons.Regular.Size24.ArrowCounterclockwise();
 
-    private void ToggleNavMenu()
-    {
-        collapseNavMenu = !collapseNavMenu;
-    }
+    private static Icon WeatherIcon(bool active = false)
+            => active
+                ? new Icons.Filled.Size24.Cloud()
+                : new Icons.Regular.Size24.Cloud();
 }

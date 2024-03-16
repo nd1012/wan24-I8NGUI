@@ -1,27 +1,37 @@
-﻿<div class="top-row ps-3 navbar navbar-dark">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="">wan24-I8NGUI</a>
-    </div>
-</div>
+﻿<FluentAppBarItem 
+    Href="" 
+    Match="NavLinkMatch.All" 
+    IconRest="HomeIcon()" 
+    IconActive="HomeIcon(active: true)" 
+    Text="@_("Home")" />
 
-<input type="checkbox" title="Navigation menu" class="navbar-toggler" />
+<FluentAppBarItem 
+    Href="counter" 
+    Match="NavLinkMatch.All" 
+    IconRest="CounterIcon()" 
+    IconActive="CounterIcon(active: true)"
+    Text="@_("Counter")" />
 
-<div class="nav-scrollable" onclick="document.querySelector('.navbar-toggler').click()">
-    <nav class="flex-column">
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                <span class="bi bi-house-door-fill-nav-menu" aria-hidden="true"></span> Home
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="counter">
-                <span class="bi bi-plus-square-fill-nav-menu" aria-hidden="true"></span> Counter
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="weather">
-                <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Weather
-            </NavLink>
-        </div>
-    </nav>
-</div>
+<FluentAppBarItem 
+    Href="weather" 
+    Match="NavLinkMatch.All" 
+    IconRest="WeatherIcon()" 
+    IconActive="WeatherIcon(active: true)"
+    Text="@_("Weather")" />
+
+@code {
+    private static Icon HomeIcon(bool active = false)
+            => active
+                ? new Icons.Filled.Size24.Home()
+                : new Icons.Regular.Size24.Home();
+
+    private static Icon CounterIcon(bool active = false)
+            => active
+                ? new Icons.Filled.Size24.ArrowCounterclockwise()
+                : new Icons.Regular.Size24.ArrowCounterclockwise();
+
+    private static Icon WeatherIcon(bool active = false)
+            => active
+                ? new Icons.Filled.Size24.Cloud()
+                : new Icons.Regular.Size24.Cloud();
+}

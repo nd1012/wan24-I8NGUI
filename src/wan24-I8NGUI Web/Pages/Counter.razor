@@ -1,12 +1,10 @@
 ﻿@page "/counter"
 
-<PageTitle>Counter</PageTitle>
+<FluentLabel Typo="Typography.H1">Counter</FluentLabel>"
 
-<h1>Counter</h1>
+<FluentLabel Typo="Typography.Body">Current count: @currentCount</FluentLabel>
 
-<p role="status">Current count: @currentCount</p>
-
-<button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
+<FluentButton @onclick="IncrementCount">Click me</FluentButton>
 
 @code {
     private int currentCount = 0;

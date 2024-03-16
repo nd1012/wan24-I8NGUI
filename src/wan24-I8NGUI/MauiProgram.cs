@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using Microsoft.FluentUI.AspNetCore.Components;
 using wan24.Core;
 
 namespace wan24.I8NGUI
@@ -25,6 +26,11 @@ namespace wan24.I8NGUI
                 });
 
             builder.Services.AddMauiBlazorWebView();
+            builder.Services.AddFluentUIComponents(options =>
+            {
+                options.HideTooltipOnCursorLeave = true;
+                options.UseTooltipServiceProvider = true;
+            });
 
 #if DEBUG
     		builder.Services.AddBlazorWebViewDeveloperTools();
