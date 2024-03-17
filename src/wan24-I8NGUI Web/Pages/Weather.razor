@@ -11,7 +11,7 @@
 }
 else
 {
-    <FluentDataGrid Items="@forecasts.AsQueryable()">
+    <FluentDataGrid Class="w-100" Items="@forecasts.AsQueryable()">
         <PropertyColumn Property="@(f => f.Date.ToLongDateString())" Title="@_("Date")" />
         <PropertyColumn Property="@(f => f.TemperatureC)" />
         <PropertyColumn Property="@(f => f.TemperatureF)" />

@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
 using Microsoft.FluentUI.AspNetCore.Components;
-using wan24.Core;
 
 namespace wan24.I8NGUI
 {
@@ -15,9 +14,26 @@ namespace wan24.I8NGUI
         /// <returns>MAUI app</returns>
         public static MauiApp CreateMauiApp()
         {
-            Bootstrap.Async().Wait();
-            Translation.Current = Translation.Dummy;
+            BuildType build =
+#if WINDOWS
+                BuildType.Windows
+#elif MACCATALYST
+                BuildType.MacCatalyst
+#elif IOS
+                BuildType.IOS
+#elif ANDROID
+                BuildType.Android
+#else
+                throw new InvalidProgramException("Unknown build")
+#endif
+                ;
+#if RELEASE
+            build |= BuildType.Release;
+#else
+            build |= BuildType.Debug;
+#endif
             var builder = MauiApp.CreateBuilder();
+            RazorStartup.Start(GuiType.MAUI, build, builder.Services);
             builder
                 .UseMauiApp<App>()
                 .ConfigureFonts(fonts =>

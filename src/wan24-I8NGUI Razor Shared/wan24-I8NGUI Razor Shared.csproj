@@ -7,9 +7,15 @@
     <RootNamespace>wan24.I8NGUI</RootNamespace>
     <AssemblyName>wan24I8NGUIRazorShared</AssemblyName>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
+    <Configurations>Debug;Release;Trunk</Configurations>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <IsTrimmable>True</IsTrimmable>
+    <CheckForOverflowUnderflow>True</CheckForOverflowUnderflow>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Trunk|AnyCPU'">
     <IsTrimmable>True</IsTrimmable>
     <CheckForOverflowUnderflow>True</CheckForOverflowUnderflow>
   </PropertyGroup>
@@ -25,13 +31,15 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="BlazorPro.BlazorSize" Version="6.2.2" />
     <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.3" />
     <PackageReference Include="Microsoft.FluentUI.AspNetCore.Components" Version="4.5.0" />
     <PackageReference Include="Microsoft.FluentUI.AspNetCore.Components.Icons" Version="4.5.0" />
-    <PackageReference Include="wan24-Core" Version="2.12.0" />
+    <PackageReference Include="wan24-Core" Version="2.12.0" Condition="'$(Configuration)' != 'Trunk'" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\wan24-Core\src\Wan24-Core\Wan24-Core.csproj" Condition="'$(Configuration)' == 'Trunk'" />
     <ProjectReference Include="..\wan24-I8NGUI Shared\wan24-I8NGUI Shared.csproj" />
   </ItemGroup>
 

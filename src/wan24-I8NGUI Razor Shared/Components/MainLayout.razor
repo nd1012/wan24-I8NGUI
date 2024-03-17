@@ -1,0 +1,74 @@
+﻿@using BlazorPro.BlazorSize
+@inherits LayoutComponentBase
+@implements IDisposable
+@inject IResizeListener ResizeListener
+@inject IToastService ToastService
+
+<FluentDesignTheme StorageName=@FLUENT_UI_THEME_STORE />
+<MediaQueryList>
+    <FluentLayout Class="d-flex flex-column w-100 h-100">
+        <FluentStack Orientation=@ScreenOrientation
+                     HorizontalAlignment="HorizontalAlignment.Left"
+                     VerticalAlignment="VerticalAlignment.Top"
+                     Class=@($"flex-fill d-flex {IfLandscape("flex-row","flex-column")}")>
+        @if (IsLandscape)
+        {
+            <FluentAppBar Style="width: 100px">
+                <NavMenu />
+            </FluentAppBar>
+            <FluentBodyContent Class="flex-fill d-flex flex-column">
+                @Body
+            </FluentBodyContent>
+        }
+        else
+        {
+            <FluentBodyContent Class="flex-fill d-flex flex-column">
+                @Body
+            </FluentBodyContent>
+            <FluentAppBar Style="height:100px">
+                <NavMenu />
+            </FluentAppBar>
+        }
+        </FluentStack>
+    </FluentLayout>
+</MediaQueryList>
+<FluentToastProvider />
+<FluentDialogProvider />
+<FluentTooltipProvider />
+<FluentMessageBarProvider />
+
+@code{
+    /// <inheritdoc/>
+    protected override void OnAfterRender(bool firstRender)
+    {
+        ToastLogger.Toast = ToastService;
+        if (firstRender)
+        {
+            ResizeListener.OnResized += HandleResize;
+        }
+        base.OnAfterRender(firstRender);
+    }
+
+    /// <inheritdoc/>
+    void IDisposable.Dispose()
+    {
+        ResizeListener.OnResized -= HandleResize;
+    }
+
+    /// <summary>
+    /// Handle a resize event (update the razor environment and re-render, if the screen orientation changed)
+    /// </summary>
+    /// <param name="sender">Sender</param>
+    /// <param name="size">Size</param>
+    private void HandleResize(object? sender, BrowserWindowSize size)
+    {
+        bool wasLandscape = IsLandscape;
+        RazorEnv.ScreenOrientation = size.Height > size.Width 
+            ? Orientation.Vertical// Portrait
+            : Orientation.Horizontal;// Landscape (for square, also)
+        RazorEnv.WindowWidth = size.Width;
+        RazorEnv.WindowHeight = size.Height;
+        if (Trace) WriteTrace($"Size change {size.Width}x{size.Height} was landscape {wasLandscape}, is landscape {IsLandscape}");
+        if (wasLandscape != IsLandscape) StateHasChanged();
+    }
+}

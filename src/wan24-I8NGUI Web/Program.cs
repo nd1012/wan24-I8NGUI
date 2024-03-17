@@ -4,10 +4,15 @@ using Microsoft.FluentUI.AspNetCore.Components;
 using wan24.Core;
 using wan24.I8NGUI;
 
-await Bootstrap.Async();
-Translation.Current = Translation.Dummy;
+BuildType build = BuildType.Browser;
+#if RELEASE
+build |= BuildType.Release;
+#else
+build |= BuildType.Debug;
+#endif
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
+await RazorStartup.StartAsync(GuiType.WASM, build, builder.Services);
 builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
 

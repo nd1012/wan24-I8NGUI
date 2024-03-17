@@ -1,5 +1,7 @@
 using Microsoft.JSInterop;
 
+//TODO Remove
+
 namespace wan24.I8NGUI
 {
     // This class provides an example of how JavaScript functionality can be wrapped

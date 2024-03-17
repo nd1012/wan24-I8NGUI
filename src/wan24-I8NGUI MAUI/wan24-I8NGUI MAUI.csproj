@@ -20,9 +20,21 @@
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>
 		<AssemblyName>wan24I8NGUIMAUI</AssemblyName>
 		<GenerateDocumentationFile>True</GenerateDocumentationFile>
+		<Configurations>Debug;Release;Trunk</Configurations>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-android|AnyCPU'">
+	  <ApplicationTitle>wan24-I8NGUI</ApplicationTitle>
+	  <ApplicationId>wan24-I8NGUI</ApplicationId>
+	  <ApplicationIdGuid>de.wan24.i8n.gui</ApplicationIdGuid>
+	  <ApplicationDisplayVersion>1.0.0</ApplicationDisplayVersion>
+	  <ApplicationVersion>1</ApplicationVersion>
+	  <RunAOTCompilation>True</RunAOTCompilation>
+	  <PublishTrimmed>True</PublishTrimmed>
+	  <TrimMode>link</TrimMode>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Trunk|net8.0-android|AnyCPU'">
 	  <ApplicationTitle>wan24-I8NGUI</ApplicationTitle>
 	  <ApplicationId>wan24-I8NGUI</ApplicationId>
 	  <ApplicationIdGuid>de.wan24.i8n.gui</ApplicationIdGuid>
@@ -41,6 +53,14 @@
 	  <ApplicationVersion>1</ApplicationVersion>
 	</PropertyGroup>
 
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Trunk|net8.0-ios|AnyCPU'">
+	  <ApplicationTitle>wan24-I8NGUI</ApplicationTitle>
+	  <ApplicationId>wan24-I8NGUI</ApplicationId>
+	  <ApplicationIdGuid>de.wan24.i8n.gui</ApplicationIdGuid>
+	  <ApplicationDisplayVersion>1.0.0</ApplicationDisplayVersion>
+	  <ApplicationVersion>1</ApplicationVersion>
+	</PropertyGroup>
+
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-maccatalyst|AnyCPU'">
 	  <ApplicationTitle>wan24-I8NGUI</ApplicationTitle>
 	  <ApplicationId>wan24-I8NGUI</ApplicationId>
@@ -49,7 +69,23 @@
 	  <ApplicationVersion>1</ApplicationVersion>
 	</PropertyGroup>
 
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Trunk|net8.0-maccatalyst|AnyCPU'">
+	  <ApplicationTitle>wan24-I8NGUI</ApplicationTitle>
+	  <ApplicationId>wan24-I8NGUI</ApplicationId>
+	  <ApplicationIdGuid>de.wan24.i8n.gui</ApplicationIdGuid>
+	  <ApplicationDisplayVersion>1.0.0</ApplicationDisplayVersion>
+	  <ApplicationVersion>1</ApplicationVersion>
+	</PropertyGroup>
+
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-windows10.0.19041.0|AnyCPU'">
+	  <ApplicationTitle>wan24-I8NGUI</ApplicationTitle>
+	  <ApplicationId>wan24-I8NGUI</ApplicationId>
+	  <ApplicationIdGuid>de.wan24.i8n.gui</ApplicationIdGuid>
+	  <ApplicationDisplayVersion>1.0.0</ApplicationDisplayVersion>
+	  <ApplicationVersion>1</ApplicationVersion>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Trunk|net8.0-windows10.0.19041.0|AnyCPU'">
 	  <ApplicationTitle>wan24-I8NGUI</ApplicationTitle>
 	  <ApplicationId>wan24-I8NGUI</ApplicationId>
 	  <ApplicationIdGuid>de.wan24.i8n.gui</ApplicationIdGuid>
@@ -94,8 +130,8 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
-		<PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="$(MauiVersion)" />
+		<PackageReference Include="Microsoft.Maui.Controls" Version="8.0.10" />
+		<PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="8.0.10" />
 	</ItemGroup>
 
 	<ItemGroup>
