@@ -3,29 +3,35 @@
 @implements IDisposable
 @inject IResizeListener ResizeListener
 @inject IToastService ToastService
+@inject IDialogService DialogService
 
 <FluentDesignTheme StorageName=@FLUENT_UI_THEME_STORE />
 <MediaQueryList>
-    <FluentLayout Class="d-flex flex-column w-100 h-100">
-        <FluentStack Orientation=@ScreenOrientation
-                     HorizontalAlignment="HorizontalAlignment.Left"
-                     VerticalAlignment="VerticalAlignment.Top"
-                     Class=@($"flex-fill d-flex {IfLandscape("flex-row","flex-column")}")>
+    <FluentLayout Class="flex-grow d-flex flex-column vw-100 vh-100 m-0 p-0">
+        <FluentStack Orientation=@ScreenOrientation 
+                     HorizontalGap="0"
+                     VerticalGap="0"
+                     Class=@($"flex-grow d-flex {IfLandscape("landscape flex-row","portrait flex-column")} {IfSmallScreen("small-screen", "large-screen")} vw-100 vh-100 m-0 p-0")>
         @if (IsLandscape)
         {
-            <FluentAppBar Style="width: 100px">
-                <NavMenu />
-            </FluentAppBar>
-            <FluentBodyContent Class="flex-fill d-flex flex-column">
+            @if (IsLargeScreen)// No menu on smartphone in landscape mode to use all the available space for the main content
+            {
+                <FluentAppBar Id="menu" Class="vh-100 m-0 p-0">
+                    <NavMenu />
+                </FluentAppBar>
+                <FluentDivider Class="h-100 m-0 p-0" Orientation="Orientation.Vertical" />
+            }
+            <FluentBodyContent Class="flex-grow d-flex flex-column">
                 @Body
             </FluentBodyContent>
         }
-        else
+        else// Portrait
         {
-            <FluentBodyContent Class="flex-fill d-flex flex-column">
+            <FluentBodyContent Class="flex-grow d-flex flex-column">
                 @Body
             </FluentBodyContent>
-            <FluentAppBar Style="height:100px">
+            <FluentDivider Class="w-100 m-0 p-0" />
+            <FluentAppBar Id="menu" Class="vw-100 m-0 p-0">
                 <NavMenu />
             </FluentAppBar>
         }
@@ -41,7 +47,8 @@
     /// <inheritdoc/>
     protected override void OnAfterRender(bool firstRender)
     {
-        ToastLogger.Toast = ToastService;
+        CurrentToastService = ToastService;
+        CurrentDialogService = DialogService;
         if (firstRender)
         {
             ResizeListener.OnResized += HandleResize;
@@ -53,22 +60,22 @@
     void IDisposable.Dispose()
     {
         ResizeListener.OnResized -= HandleResize;
+        CurrentDialogService = null;
+        CurrentToastService = null;
     }
 
     /// <summary>
-    /// Handle a resize event (update the razor environment and re-render, if the screen orientation changed)
+    /// Handle a resize event (update the razor environment and re-render, if the screen orientation/size changed)
     /// </summary>
     /// <param name="sender">Sender</param>
     /// <param name="size">Size</param>
     private void HandleResize(object? sender, BrowserWindowSize size)
     {
-        bool wasLandscape = IsLandscape;
-        RazorEnv.ScreenOrientation = size.Height > size.Width 
-            ? Orientation.Vertical// Portrait
-            : Orientation.Horizontal;// Landscape (for square, also)
-        RazorEnv.WindowWidth = size.Width;
-        RazorEnv.WindowHeight = size.Height;
-        if (Trace) WriteTrace($"Size change {size.Width}x{size.Height} was landscape {wasLandscape}, is landscape {IsLandscape}");
-        if (wasLandscape != IsLandscape) StateHasChanged();
+        bool wasLandscape = IsLandscape,
+            wasSmallScreen = IsSmallScreen;
+        WindowWidth = size.Width;
+        WindowHeight = size.Height;
+        if (Trace) WriteTrace($"Size change {size.Width}x{size.Height} was landscape {wasLandscape}, is landscape {IsLandscape}, was small screen {wasSmallScreen}, is small screen {IsSmallScreen}");
+        if (wasLandscape != IsLandscape || wasSmallScreen != IsSmallScreen) StateHasChanged();
     }
 }

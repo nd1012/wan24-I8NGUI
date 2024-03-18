@@ -1,5 +1,6 @@
 ﻿using BlazorPro.BlazorSize;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using wan24.Core;
 
 namespace wan24.I8NGUI
@@ -40,7 +41,10 @@ namespace wan24.I8NGUI
         /// <param name="services">Services</param>
         private static void SyncStart(in IServiceCollection services)
         {
-            Logging.Logger = new ToastLogger(next: Logging.Logger);
+            Logging.Logger = ToastLogger.Instance = new ToastLogger(next: Logging.Logger)
+            {
+                ShowDialog = LogLevel.Warning
+            };
             services.AddMediaQueryService();
             services.AddResizeListener(options =>
             {

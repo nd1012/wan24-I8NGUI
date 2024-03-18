@@ -12,5 +12,13 @@
     private void IncrementCount()
     {
         currentCount++;
+        if (currentCount == 3)
+        {
+            ShowWarning("Clicked 3 times");
+        }
+        else
+        {
+            ShowInfo($"Click count {currentCount}");
+        }
     }
 }

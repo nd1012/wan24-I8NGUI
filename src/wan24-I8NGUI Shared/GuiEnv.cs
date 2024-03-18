@@ -19,5 +19,20 @@
         /// If this is a debug build
         /// </summary>
         public static bool IsDebug => (AppBuild & BuildType.Debug) == BuildType.Debug;
+
+        /// <summary>
+        /// If this is a release build
+        /// </summary>
+        public static bool IsRelease => !IsDebug;
+
+        /// <summary>
+        /// If this is a local app
+        /// </summary>
+        public static bool IsLocalApp => AppType == GuiType.MAUI;
+
+        /// <summary>
+        /// If this is a browser app (WebAssembly)
+        /// </summary>
+        public static bool IsBrowserApp => !IsLocalApp;
     }
 }
